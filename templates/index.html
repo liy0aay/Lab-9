@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte du Monde</title>
+
+    <!-- Подключение шрифтов Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kablammo:MORF@0..60&family=Rubik+Glitch+Pop&family=Rubik+Puddles&display=swap" rel="stylesheet">
+
+    <style>
+        /* Общий стиль страницы */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url("{{ url_for('static', filename='paris.png') }}") no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Заголовок сайта */
+        header {
+            font-family: "Kablammo", system-ui;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 120px;
+            color: rgb(255, 255, 255);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Контейнер с таблицей */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgb(5, 200, 190);
+            border: 3px solid #1a0202;
+        }
+
+        /* Поля формы и кнопки */
+        form input, form button {
+            padding: 0px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 40px;
+        }
+
+        /* Кнопки */
+        .add-btn, .clear-btn {
+            font-family: "Kablammo", system-ui;
+            font-weight: 800;
+            font-style: normal;
+            background-color: #aea5fb;
+            color: rgb(255, 255, 75);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+            background: linear-gradient(45deg, #f10054f2, #70d3ee);
+            background-size: 100% 100%;
+            transition: background 0.5s ease-in-out;
+        }
+
+        .add-btn:hover {
+            background-color: #5daae1;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            transform: translateY(-5px);
+            transition: transform 0.2s ease-out;
+            background-position: right bottom;
+        }
+        .add-btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease-in-out;
+        }
+
+        .clear-btn {
+            background-color: #5e0414;
+            color: white;
+            background: linear-gradient(45deg, #450c0cce, #ba9191b1);
+            background-size: 100% 100%;
+            transition: background 0.5s ease-in-out;
+        }
+
+        .clear-btn:hover {
+            background-color: #41020d;
+            background-position: right bottom;
+        }
+
+        .clear-btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease-in-out;
+        }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: fixed;
+        }
+
+        table th, table td {
+            font-family: "Rubik Glitch Pop", system-ui;
+            font-weight: 800;
+            font-size: 40px; 
+            font-style: italic;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 8px solid #000000;
+        }
+
+        th, td {
+            word-wrap: break-word; 
+            text-align: center; 
+            padding: 12px;
+        }
+
+        th {
+            width: 50%; 
+        }
+
+        table th {
+            background-color: rgba(146, 0, 71, 0.611);
+            color: rgb(255, 255, 255);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    Carte du Monde
+</header>
+
+<div class="container">
+    <form method="post">
+        <input type="text" name="town" placeholder="Введите название города" required>
+        <input type="date" name="visit_date" required>
+        <button type="submit" class="add-btn">Я ТУТ БЫЛ!</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th> Город</th>
+                <th> Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visit in visits %}
+                <tr>
+                    <td>{{ visit.town }}</td>
+                    <td>{{ visit.visit_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ url_for('clear') }}" method="post">
+        <button type="submit" class="clear-btn">ОЧИСТИТЬ СПИСОК</button>
+    </form>
+</div>
+
+</body>
+</html>
